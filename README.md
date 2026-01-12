@@ -4,6 +4,8 @@ This project is a Telegram bot developed in Python utilizing the aiogram library
 
 ![README Markmap](./readme_markmap.png)
 
+https://github.com/user-attachments/assets/b37fb02c-9a1d-4ae7-8142-ed2e361269f4
+
 ## Installation and Setup
 
 ### Requirements
@@ -103,3 +105,4 @@ python main.py
 ## Contribution and Support
 
 If you find any bugs or have suggestions for improvement, feel free to create an issue or submit a pull request in this repository.
+
