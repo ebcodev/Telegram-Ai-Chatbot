@@ -30,18 +30,18 @@ from aiogram.types import Message, FSInputFile
 from aiogram.utils.formatting import Text, Bold
 from openai import OpenAI
 
-from base import get_or_create_user_data, save_user_data
-from buttons import (
+from src.database.storage import get_or_create_user_data, save_user_data
+from src.keyboards.buttons import (
     keyboard_model,
     keyboard_context,
     keyboard_voice,
     keyboard_value_work,
 )
-from buttons import keyboard_pic, keyboard
-from function import info_menu_func
-from function import prune_messages, process_voice_message, simple_bot_responses
-from middlewares import ThrottlingMiddleware
-from text import start_message, help_message, system_message_text
+from src.keyboards.buttons import keyboard_pic, keyboard
+from src.utils.functions import info_menu_func
+from src.utils.functions import prune_messages, process_voice_message, simple_bot_responses
+from src.middlewares.throttling import ThrottlingMiddleware
+from src.utils.texts import start_message, help_message, system_message_text
 
 # Set the timezone
 timezone = pytz.timezone("Europe/Madrid")
@@ -55,7 +55,7 @@ formatted_datetime = current_datetime.strftime("%d.%m.%Y %H:%M:%S")
 # Reading parameters from config.ini
 config = configparser.ConfigParser()
 
-config.read(Path(__file__).parent / "config.ini")
+config.read(Path(__file__).parent.parent.parent / "config.ini")
 
 TOKEN = config.get("Telegram", "token")
 
@@ -1055,7 +1055,7 @@ async def chatgpt_text_handler(message: Message):
 
             async def text_to_speech(unic_id, text_message):
                 """Generates a voice message from text using the OpenAI API."""
-                speech_file_path = Path(__file__).parent / f"voice/speech_{unic_id}.mp3"
+                speech_file_path = Path(__file__).parent.parent.parent / f"data/voice/speech_{unic_id}.mp3"
 
                 response_voice = await asyncio.to_thread(
                     lambda: client.audio.speech.create(

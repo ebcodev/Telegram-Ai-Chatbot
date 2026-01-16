@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+*.db
+*.sqlite
+data/voice/
+!data/voice/.keep
+*.log
+config.ini
