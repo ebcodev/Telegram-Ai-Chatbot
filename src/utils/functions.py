@@ -1,32 +1,12 @@
 import asyncio
-import configparser
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from aiogram import Bot, types
-from aiogram.client.default import DefaultBotProperties
-from aiogram.enums import ParseMode
-from openai import OpenAI
 from pydub import AudioSegment
 
-#from mistralai import Mistral
-
 from src.database.storage import get_or_create_user_data
-
-# Reading parameters from config.in
-config = configparser.ConfigParser()
-config.read(Path(__file__).parent.parent.parent / "config.ini")
-
-TOKEN = config.get("Telegram", "token")
-
-bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
-# Parameters for OpenAI
-openai_api_key = config.get("OpenAI", "api_key")
-
-# Using parameters for OpenAI initialization
-client = OpenAI(api_key=openai_api_key)
-
+from src.services.openai_service import OpenAIService
 
 async def info_menu_func(user_id):
     user_data = await get_or_create_user_data(user_id)
@@ -75,6 +55,9 @@ async def process_voice_message(bot: Bot, message: types.Message, user_id: int):
     ogg_path = Path(__file__).parent.parent.parent / f"data/voice/voice_{user_id}.ogg"
     mp3_path = Path(__file__).parent.parent.parent / f"data/voice/voice_{user_id}.mp3"
 
+    # Ensure directory exists
+    ogg_path.parent.mkdir(parents=True, exist_ok=True)
+
     # Downloading the file
     await bot.download_file(file_info.file_path, ogg_path)
 
@@ -86,15 +69,8 @@ async def process_voice_message(bot: Bot, message: types.Message, user_id: int):
             lambda: AudioSegment.from_ogg(ogg_path).export(mp3_path, format="mp3"),
         )
 
-    # Using asyncio.to_thread for calling the OpenAI API
-    with open(mp3_path, "rb") as audio_file:
-        transcription = await asyncio.to_thread(
-            lambda: client.audio.transcriptions.create(
-                model="whisper-1", file=audio_file
-            )
-        )
-        sys_message = transcription.text
-        return sys_message
+    return await OpenAIService.speech_to_text(mp3_path)
+
 
 async def simple_bot_responses(user_prompt):
     return None
