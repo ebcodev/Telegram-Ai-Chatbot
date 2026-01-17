@@ -3,6 +3,10 @@ import logging
 import sys
 from pathlib import Path
 
+# Add project root to sys.path to allow imports from src
+project_root = Path(__file__).resolve().parent.parent
+sys.path.append(str(project_root))
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
