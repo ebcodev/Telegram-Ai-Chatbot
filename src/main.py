@@ -1,5 +1,4 @@
 import asyncio
-import configparser
 import logging
 import sys
 from pathlib import Path
@@ -9,13 +8,10 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from src.handlers.handler import router
-
-config = configparser.ConfigParser()
-config.read(Path(__file__).parent.parent / "config.ini")
-
-TOKEN = config.get("Telegram", "token")
-
+from src.handlers import router
+from src.config import config
+from src.database.storage import init_db
+from src.middlewares.throttling import ThrottlingMiddleware
 
 async def set_commands(bot: Bot):
     commands = {
@@ -32,8 +28,14 @@ async def set_commands(bot: Bot):
 
 
 async def start_bot():
-    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    await init_db()
+
+    bot = Bot(token=config.telegram.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher(storage=MemoryStorage())
+
+    # Global middleware
+    dp.message.middleware(ThrottlingMiddleware(spin=1.5))
+
     dp.include_router(router)
     await bot.delete_webhook(drop_pending_updates=True)
     await set_commands(bot)
