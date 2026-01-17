@@ -1,108 +1,50 @@
-# Define button texts and callback data
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-BUTTONS_ALL = [
-    ("Model Selection", "model_choice"),
-    ("Image Settings", "pic_setup"),
-    ("Context Actions", "context_work"),
-    ("Voice Responses", "voice_answer_work"),
-    ("System Role", "system_value_work"),
-    ("Information", "info"),
-]
+# Main Menu
+keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Model", callback_data="model_choice"),
+     InlineKeyboardButton(text="Pic Setup", callback_data="pic_setup")],
+    [InlineKeyboardButton(text="Context", callback_data="context_work"),
+     InlineKeyboardButton(text="Voice", callback_data="voice_answer_work")],
+    [InlineKeyboardButton(text="System Role", callback_data="system_value_work")]
+])
 
-# Create inline keyboard buttons
-inline_buttons = [
-    InlineKeyboardButton(text=text, callback_data=data) for text, data in BUTTONS_ALL
-]
+# Model Choice
+keyboard_model = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="GPT-4o Mini", callback_data="gpt_4o_mini"),
+     InlineKeyboardButton(text="GPT-4o", callback_data="gpt_4_o")],
+    [InlineKeyboardButton(text="o1 Mini", callback_data="gpt_o1_mini"),
+     InlineKeyboardButton(text="o1 Preview", callback_data="gpt_o1_preview")],
+    [InlineKeyboardButton(text="DALL-E 3", callback_data="dall_e_3")],
+    [InlineKeyboardButton(text="Back", callback_data="back_menu")]
+])
 
-# Create main keyboard
-keyboard = InlineKeyboardMarkup(inline_keyboard=[[button] for button in inline_buttons])
+# Pic Setup
+keyboard_pic = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="SD", callback_data="set_sd"),
+     InlineKeyboardButton(text="HD", callback_data="set_hd")],
+    [InlineKeyboardButton(text="1024x1024", callback_data="set_1024x1024"),
+     InlineKeyboardButton(text="1024x1792", callback_data="set_1024x1792")],
+    [InlineKeyboardButton(text="Back", callback_data="back_menu")]
+])
 
-# Create main buttons
-pic_buttons = [
-    ("SD", "set_sd"),
-    ("HD", "set_hd"),
-    ("1024x1024", "set_1024x1024"),
-    ("1024x1792", "set_1024x1792"),
-    ("1792x1024", "set_1792x1024"),
-    ("Back to Menu", "back_menu"),
-]
+# Context
+keyboard_context = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Show Context", callback_data="context"),
+     InlineKeyboardButton(text="Clear Context", callback_data="clear")],
+    [InlineKeyboardButton(text="Back", callback_data="back_menu")]
+])
 
-#
-inline_buttons_pic = [
-    InlineKeyboardButton(text=text, callback_data=data) for text, data in pic_buttons
-]
+# Voice
+keyboard_voice = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Enable", callback_data="voice_answer_add"),
+     InlineKeyboardButton(text="Disable", callback_data="voice_answer_del")],
+    [InlineKeyboardButton(text="Back", callback_data="back_menu")]
+])
 
-#
-keyboard_pic = InlineKeyboardMarkup(
-    inline_keyboard=[[button] for button in inline_buttons_pic]
-)
-
-BUTTONS_MODEL = [
-    ("4o mini", "gpt_4o_mini"),
-    ("4o", "gpt_4_o"),
-    ("o1 mini", "gpt_o1_mini"),
-    ("o1", "gpt_o1_preview"),
-    ("DALL·E 3", "dall_e_3"),
-    ("Back to Menu", "back_menu"),
-]
-
-# Create inline keyboard buttons
-inline_buttons_model = [
-    InlineKeyboardButton(text=text, callback_data=data) for text, data in BUTTONS_MODEL
-]
-
-# Create main keyboard
-keyboard_model = InlineKeyboardMarkup(
-    inline_keyboard=[[button] for button in inline_buttons_model]
-)
-
-BUTTONS_CONTEXT = [
-    ("Display Context", "context"),
-    ("Clear Context", "clear"),
-    ("Back to Menu", "back_menu"),
-]
-
-# Create inline keyboard buttons
-inline_buttons_context = [
-    InlineKeyboardButton(text=text, callback_data=data)
-    for text, data in BUTTONS_CONTEXT
-]
-
-# Create main keyboard
-keyboard_context = InlineKeyboardMarkup(
-    inline_keyboard=[[button] for button in inline_buttons_context]
-)
-
-BUTTONS_VOICE = [
-    ("Enable Audio Response", "voice_answer_add"),
-    ("Disable Audio Response", "voice_answer_del"),
-    ("Back to Menu", "back_menu"),
-]
-
-# Create inline keyboard buttons
-inline_buttons_voice = [
-    InlineKeyboardButton(text=text, callback_data=data) for text, data in BUTTONS_VOICE
-]
-
-# Create main keyboard
-keyboard_voice = InlineKeyboardMarkup(
-    inline_keyboard=[[button] for button in inline_buttons_voice]
-)
-
-BUTTONS_VALUE_WORK = [
-    ("Assign System's Role", "change_value"),
-    ("Remove System's Role", "delete_value"),
-    ("Back to Menu", "back_menu"),
-]
-
-# Create inline keyboard buttons
-inline_buttons_value_work = [
-    InlineKeyboardButton(text=text, callback_data=data)
-    for text, data in BUTTONS_VALUE_WORK
-]
-
-# Create main keyboard
-keyboard_value_work = InlineKeyboardMarkup(
-    inline_keyboard=[[button] for button in inline_buttons_value_work]
-)
+# System Role
+keyboard_value_work = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Change Role", callback_data="change_value"),
+     InlineKeyboardButton(text="Delete Role", callback_data="delete_value")],
+    [InlineKeyboardButton(text="Back", callback_data="back_menu")]
+])

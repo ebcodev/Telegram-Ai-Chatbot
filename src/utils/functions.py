@@ -54,7 +54,7 @@ async def process_voice_message(bot: Bot, message: types.Message, user_id: int):
     file_info = await bot.get_file(file_id)
     ogg_path = Path(__file__).parent.parent.parent / f"data/voice/voice_{user_id}.ogg"
     mp3_path = Path(__file__).parent.parent.parent / f"data/voice/voice_{user_id}.mp3"
-
+    
     # Ensure directory exists
     ogg_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -68,7 +68,7 @@ async def process_voice_message(bot: Bot, message: types.Message, user_id: int):
             pool,
             lambda: AudioSegment.from_ogg(ogg_path).export(mp3_path, format="mp3"),
         )
-
+    
     return await OpenAIService.speech_to_text(mp3_path)
 
 

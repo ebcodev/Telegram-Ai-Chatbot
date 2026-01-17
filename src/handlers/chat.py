@@ -50,7 +50,7 @@ async def chatgpt_text_handler(message: Message):
         if user_data.model in ["gpt-4o-mini", "gpt-4o", "o1-mini", "o1-preview"]:
             await handle_text_model(message, user_data, user_prompt, last_message_id)
             return
-
+            
     except Exception as e:
         logging.exception(e)
         await message.reply(f"An error occurred: {e}")
@@ -63,10 +63,10 @@ async def handle_dalle(message, user_data, prompt, loading_msg_id):
             size=user_data.pic_size,
             quality=user_data.pic_grade
         )
-
+        
         user_data.count_messages += 1
         await save_user_data(message.from_user.id)
-
+        
         await message.bot.delete_message(message.chat.id, loading_msg_id)
         await message.bot.send_photo(
             message.chat.id,
@@ -86,13 +86,13 @@ async def handle_text_model(message, user_data, prompt, loading_msg_id):
     pruned_messages = await prune_messages(
         user_data.messages, max_chars=user_data.max_out
     )
-
+    
     # Process system message
     system_msg = user_data.system_message if user_data.system_message else None
-
+    
     # Bot is typing...
     await message.bot.send_chat_action(message.chat.id, action="typing")
-
+    
     response_message = await OpenAIService.chat_completion(
         model=user_data.model,
         messages=pruned_messages,
@@ -103,9 +103,9 @@ async def handle_text_model(message, user_data, prompt, loading_msg_id):
     user_data.messages.append({"role": "assistant", "content": response_message})
     user_data.count_messages += 1
     await save_user_data(message.from_user.id)
-
+    
     await message.bot.delete_message(message.chat.id, loading_msg_id)
-
+    
     await send_response(message, user_data, response_message)
 
 
@@ -115,9 +115,9 @@ async def send_response(message, user_data, response_text):
             from pathlib import Path
             speech_file_path = Path(__file__).parent.parent.parent / f"data/voice/speech_{message.chat.id}.mp3"
             speech_file_path.parent.mkdir(parents=True, exist_ok=True)
-
+            
             await OpenAIService.text_to_speech(response_text, str(speech_file_path))
-
+            
             from aiogram.types import FSInputFile
             audio = FSInputFile(speech_file_path)
             await message.bot.send_audio(
@@ -139,9 +139,9 @@ async def send_response(message, user_data, response_text):
             else:
                 content_kwargs = Text(Bold(user_data.model_message_chat), response_text)
                 await message.reply(**content_kwargs.as_kwargs(), disable_web_page_preview=True)
-
+        
         await send_voice_if_enabled()
-
+        
     except Exception as e:
         logging.error(f"Error sending message: {e}")
         # Fallback to splitting plain text
@@ -153,12 +153,12 @@ async def send_long_message(message, prefix, text, parse_mode=None):
         full_text = f"*{prefix}*\n{text}"
     else:
         full_text = f"{prefix}\n{text}"
-
+        
     lines = full_text.split("\n")
     chunks = []
     current_chunk = []
     current_length = 0
-
+    
     for line in lines:
         line_length = len(line) + 1
         if current_length + line_length > 4096:
@@ -168,10 +168,10 @@ async def send_long_message(message, prefix, text, parse_mode=None):
         else:
             current_chunk.append(line)
             current_length += line_length
-
+            
     if current_chunk:
         chunks.append("\n".join(current_chunk))
-
+        
     for chunk in chunks:
         if parse_mode:
             await message.answer(chunk, parse_mode=parse_mode, disable_web_page_preview=True)

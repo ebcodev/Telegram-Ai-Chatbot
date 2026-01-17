@@ -5,7 +5,6 @@ from typing import List, Dict, Any, Optional
 from openai import OpenAI
 
 from src.config import config
-from src.utils.functions import prune_messages
 
 # Initialize OpenAI client
 client = OpenAI(api_key=config.openai.api_key)
@@ -17,14 +16,14 @@ class OpenAIService:
         messages: List[Dict[str, str]],
         system_message: Optional[str] = None
     ) -> str:
-
+        
         # Prepare messages
         final_messages = []
         if system_message and model in ["gpt-4o-mini", "gpt-4o"]:
              final_messages.append({"role": "system", "content": system_message})
-
+        
         final_messages.extend(messages)
-
+        
         try:
             chat_completion = await asyncio.to_thread(
                 lambda: client.chat.completions.create(
@@ -57,7 +56,7 @@ class OpenAIService:
         except Exception as e:
             logging.error(f"OpenAI Image Generation Error: {e}")
             raise e
-
+            
     @staticmethod
     async def vision_chat_completion(
         text: str,

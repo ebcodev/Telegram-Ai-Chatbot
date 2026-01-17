@@ -61,12 +61,12 @@ async def enable_all_access(message: Message):
     Only users in OWNER_ID can use this command.
     """
     user_id = message.from_user.id
-
+    
     # Ensure who can use this command
     if user_id != config.telegram.owner_id and user_id != config.telegram.admin_id:
         await message.answer("You do not have permission to use this command.")
         return
-
+    
     common_state.ALL_USERS_ACCESS = True
     await message.answer("Bot access has been enabled for all users.")
 
@@ -78,11 +78,11 @@ async def disable_all_access(message: Message):
     Only users in OWNER_ID can use this command.
     """
     user_id = message.from_user.id
-
+    
     # Ensure who can use this command
     if user_id != config.telegram.owner_id and user_id != config.telegram.admin_id:
         await message.answer("You do not have permission to use this command.")
         return
-
+    
     common_state.ALL_USERS_ACCESS = False
     await message.answer("Bot access has been disabled for all non-owner users. Owner access remains unaffected.")

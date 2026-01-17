@@ -20,10 +20,10 @@ class Config:
 def load_config(path: Path = None) -> Config:
     if path is None:
         path = Path(__file__).parent.parent / "config.ini"
-
+    
     config_parser = configparser.ConfigParser()
     config_parser.read(path)
-
+    
     return Config(
         telegram=TelegramConfig(
             token=config_parser.get("Telegram", "token"),

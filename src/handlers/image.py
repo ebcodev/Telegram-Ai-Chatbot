@@ -38,7 +38,7 @@ async def chatgpt_photo_vision_handler(message: Message, state: FSMContext):
 
         user_data.count_messages += 1
         await save_user_data(message.from_user.id)
-
+        
         await message.bot.delete_message(message.chat.id, temp_message.message_id)
         await message.answer(ai_response)
 

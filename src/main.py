@@ -33,13 +33,13 @@ async def set_commands(bot: Bot):
 
 async def start_bot():
     await init_db()
-
+    
     bot = Bot(token=config.telegram.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher(storage=MemoryStorage())
-
+    
     # Global middleware
     dp.message.middleware(ThrottlingMiddleware(spin=1.5))
-
+    
     dp.include_router(router)
     await bot.delete_webhook(drop_pending_updates=True)
     await set_commands(bot)

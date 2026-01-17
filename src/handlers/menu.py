@@ -41,7 +41,7 @@ async def process_key_button(message: Message, state: FSMContext):
         await state.clear()
 
     info_menu = await info_menu_func(message.from_user.id)
-
+    
     await message.answer(text=f"{info_menu}", reply_markup=keyboard)
 
 
@@ -73,7 +73,7 @@ async def process_callback_info(callback_query: CallbackQuery, state: FSMContext
 
     info_voice_answer = "on" if user_data.voice_answer else "off"
     info_system_message = user_data.system_message if user_data.system_message else "Undefined"
-
+    
     # Getting the current date and time
     current_datetime = datetime.now(timezone)
     formatted_datetime = current_datetime.strftime("%d.%m.%Y %H:%M:%S")
@@ -121,9 +121,9 @@ async def process_callback_model_choice(
 async def set_model(callback_query, model_id, model_info, model_chat_prefix):
     if not await checkAccess(callback_query.message):
         return
-
+    
     user_data = await get_or_create_user_data(callback_query.from_user.id)
-
+    
     if user_data.model == model_id:
         await callback_query.answer()
         return
@@ -294,7 +294,7 @@ async def process_callback_context(callback_query: CallbackQuery):
     chunks = []
     current_chunk = []
     current_length = 0
-
+    
     for line in lines:
         line_length = len(line) + 1
         if current_length + line_length > max_length:
@@ -315,7 +315,7 @@ async def process_callback_context(callback_query: CallbackQuery):
         text=f"Actions with context:",
         reply_markup=keyboard_context,
     )
-
+    
     await callback_query.message.edit_text(text="Context:", reply_markup=None)
     await callback_query.answer()
 
@@ -379,12 +379,12 @@ async def process_callback_voice_answer_toggle(callback_query: CallbackQuery):
 
     info_voice_answer = "enabled" if user_data.voice_answer else "off"
     # "enabled" if on, "off" if off? original code was inconsistent "enabled" vs "on" vs "off"
-    # Keeping consistent with original logic if possible, or simplifying.
+    # Keeping consistent with original logic if possible, or simplifying. 
     # Original: add -> "enabled", del -> "on" (Wait, really? Let's check original code)
     # Original add: info_voice_answer = "enabled"
     # Original del: info_voice_answer = "on" if user_data.voice_answer else "off" (so "off")
     # I'll stick to on/off for consistency in display
-
+    
     display_status = "enabled" if user_data.voice_answer else "off"
 
     await callback_query.message.edit_text(
