@@ -1,113 +1,105 @@
-# Telegram Bot Using OpenAI
+# Telegram AI Chatbot 🤖
 
-This project is a Telegram bot developed in Python utilizing the aiogram library. It integrates seamlessly with the OpenAI API to provide advanced text and image generation capabilities. The bot includes features to process audio messages, offering a versatile interaction experience. It supports multiple OpenAI models, including GPT-4.0 Omni, o1, and DALL·E 3, allowing users to engage through text, voice, and multimedia-based interactions.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/eblancode/telegram-ai-chatbot?style=social)](https://github.com/eblancode/telegram-ai-chatbot/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/eblancode/telegram-ai-chatbot?style=social)](https://github.com/eblancode/telegram-ai-chatbot/network/members)
 
-![README Markmap](./readme_markmap.png)
+A powerful Telegram bot built with **aiogram** that integrates **OpenAI's API** (GPT-4o, o1, DALL·E 3) for advanced text, image generation, and voice processing. Supports interactive menus, context management, and customizable settings—all in a clean, modular structure.
 
-https://github.com/user-attachments/assets/b37fb02c-9a1d-4ae7-8142-ed2e361269f4
+![Project Overview Markmap](./readme_markmap.png)
 
-## Installation and Setup
+![Bot Demo](https://github.com/user-attachments/assets/b37fb02c-9a1d-4ae7-8142-ed2e361269f4)
 
-### Requirements
+## 🚀 Quick Start
 
-- Python 3.8 or higher
-
-### Installing
-
-1. **Clone the repository:**
+1. Clone the repo:
 
    ```bash
    git clone https://github.com/eblancode/telegram-ai-chatbot.git
    cd telegram-ai-chatbot
    ```
 
-2. **Create a directory for data (optional):**
+2. (Optional) Create data directory:
 
    ```bash
    mkdir data
    ```
 
-3. **Install the dependencies:**
+3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
-### Configuration
+4. Create `config.ini` (see Configuration below).
 
-1. Create a `config.ini` file in the root directory of the project and add the following lines:
-
-   ```ini
-   [OpenAI]
-   api_key = your_api_key
-
-   [Telegram]
-   token = your_token
-   owner_id = your_user_id
+5. Run:
+   ```bash
+   python src/main.py
    ```
-
-   - `api_key`: Your OpenAI API key.
-   - `token`: Your Telegram bot token.
-   - `owner_id`: Your User ID in Telegram, which will have access to the bot.
-
-### Running the Bot
-
-Run the bot with the following command:
-
-```bash
-python src/main.py
-```
 
 ## Features
 
-### Main Commands
+### Core Commands
 
-- **/start**: Initializes the GPT-4.0 Mini model, disables voice response, clears the dialogue context, resets the message counter, removes the system role, and sets the image quality and size.
-- **/menu**: Opens the settings menu.
-- **/help**: Displays help and usage instructions for the bot.
+- `/start` — Reset and initialize (GPT-4o Mini default)
+- `/menu` — Open interactive settings
+- `/help` — Usage instructions
 
 ### Settings Menu
 
-- **Model Selection:**
-  - GPT-4.0 Mini
-  - GPT-4.0
-  - o1 Mini
-  - o1
-  - DALL·E 3
+- **Models**: GPT-4o Mini, GPT-4o, o1 Mini, o1, DALL·E 3
+- **Image Generation**: Quality (SD/HD), Sizes (1024x1024, etc.)
+- **Context**: View/clear conversation history
+- **Voice**: Enable/disable voice responses
+- **System Role**: Custom prompts
+- **Info**: Bot stats
 
-- **Image Settings:**
-  - Set quality (SD/HD)
-  - Set size (1024x1024, 1024x1792, 1792x1024)
+### Tech Stack
 
-- **Context Actions:**
-  - Show current context
-  - Clear current context
+- Python + aiogram
+- OpenAI API (GPT + DALL·E)
+- SQLite for persistence
+- Voice message support
 
-- **Voice Responses:**
-  - Enable voice response
-  - Disable voice response
+## Installation and Setup
 
-- **System Role:**
-  - Assign system role
-  - Remove system role
+### Requirements
 
-- **Information:**
-  - Show bot status information
+- Python 3.8+
+
+### Configuration
+
+Create `config.ini` in root:
+
+```ini
+[OpenAI]
+api_key = your_openai_api_key
+
+[Telegram]
+token = your_bot_token
+owner_id = your_telegram_user_id
+```
 
 ## Project Structure
 
-- `src/`: Main source code directory.
-  - `main.py`: Entry point to run the bot.
-  - `config.py`: Configuration and settings management.
-  - `database/`: Database entities and storage management.
-  - `handlers/`: Command and message handlers (chat, image, menu, etc.).
-  - `keyboards/`: Definition of interactive buttons and keyboards.
-  - `middlewares/`: Throttling and rate-limiting logic.
-  - `services/`: External service integrations like OpenAI.
-  - `utils/`: Common utility functions, access control, and texts.
-- `data/`: Directory for persistent data storage (SQLite DB and voice files).
-- `config.ini`: Configuration file for tokens and API keys.
-- `requirements.txt`: Project dependencies.
+- `src/` — Core code (handlers, services, etc.)
+- `data/` — Persistent storage (DB + voice files)
+- `config.ini` — Secrets
+- `requirements.txt` — Dependencies
 
-## Contribution and Support
+## 🤝 Contributing
 
-If you find any bugs or have suggestions for improvement, feel free to create an issue or submit a pull request in this repository.
+We welcome contributions! Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+- Report bugs or request features via [Issues](https://github.com/eblancode/telegram-ai-chatbot/issues)
+- Submit improvements via Pull Requests
+
+## License
+
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
+
+---
+
+Thanks for checking it out! ⭐ Star the repo if you find it useful.
