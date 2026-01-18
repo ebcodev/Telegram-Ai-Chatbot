@@ -9,19 +9,22 @@ https://github.com/user-attachments/assets/b37fb02c-9a1d-4ae7-8142-ed2e361269f4
 ## Installation and Setup
 
 ### Requirements
+
 - Python 3.8 or higher
 
 ### Installing
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/eblancode/telegram-ai-chatbot.git
    cd telegram-ai-chatbot
    ```
 
-2. **Create a directory for audio files:**
+2. **Create a directory for data (optional):**
+
    ```bash
-   mkdir voice
+   mkdir data
    ```
 
 3. **Install the dependencies:**
@@ -49,8 +52,9 @@ https://github.com/user-attachments/assets/b37fb02c-9a1d-4ae7-8142-ed2e361269f4
 ### Running the Bot
 
 Run the bot with the following command:
+
 ```bash
-python main.py
+python src/main.py
 ```
 
 ## Features
@@ -91,18 +95,19 @@ python main.py
 
 ## Project Structure
 
-- `main.py`: Main file to run the bot.
-- `handler.py`: Handlers for various commands and messages.
-- `classes.py`: Classes for database operations and user data management.
-- `base.py`: Functions for database operations.
-- `middlewares.py`: Middleware for rate limiting.
-- `buttons.py`: Defines buttons and keyboards for user interaction.
-- `function.py`: Functions for processing voice messages and trimming long messages.
-- `text.py`: Text messages used by the bot.
-- `config.ini`: Configuration file for storing tokens and API keys.
-- `requirements.txt`: List of dependencies.
+- `src/`: Main source code directory.
+  - `main.py`: Entry point to run the bot.
+  - `config.py`: Configuration and settings management.
+  - `database/`: Database entities and storage management.
+  - `handlers/`: Command and message handlers (chat, image, menu, etc.).
+  - `keyboards/`: Definition of interactive buttons and keyboards.
+  - `middlewares/`: Throttling and rate-limiting logic.
+  - `services/`: External service integrations like OpenAI.
+  - `utils/`: Common utility functions, access control, and texts.
+- `data/`: Directory for persistent data storage (SQLite DB and voice files).
+- `config.ini`: Configuration file for tokens and API keys.
+- `requirements.txt`: Project dependencies.
 
 ## Contribution and Support
 
 If you find any bugs or have suggestions for improvement, feel free to create an issue or submit a pull request in this repository.
-

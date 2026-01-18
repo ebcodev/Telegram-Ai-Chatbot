@@ -14,7 +14,7 @@ async def checkAccess(message: Message) -> bool:
     user_id = message.from_user.id
     
     # Always allow owner and admin
-    if user_id == config.telegram.owner_id or user_id == config.telegram.admin_id:
+    if user_id == config.telegram.owner_id:
         return True
     
     # Check if all users are allowed

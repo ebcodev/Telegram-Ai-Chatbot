@@ -27,10 +27,17 @@ async def init_db():
                 voice_answer BOOLEAN,
                 system_message TEXT,
                 pic_grade TEXT,
-                pic_size TEXT
+                pic_size TEXT,
+                username TEXT
             )
         """
         )
+        # Migration: Check if username column exists, if not add it
+        try:
+             await db.execute("SELECT username FROM UsersData LIMIT 1")
+        except aiosqlite.OperationalError:
+             await db.execute("ALTER TABLE UsersData ADD COLUMN username TEXT")
+             
         await db.commit()
 
 async def get_or_create_user_data(user_id: int) -> UserData:
@@ -63,8 +70,8 @@ async def save_user_data(user_id: int) -> None:
         await db.execute(
             """
             INSERT INTO UsersData (user_id, model, model_message_info, model_message_chat, messages,
-            count_messages, max_out, voice_answer, system_message, pic_grade, pic_size)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            count_messages, max_out, voice_answer, system_message, pic_grade, pic_size, username)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(user_id)
             DO UPDATE SET
                 model = excluded.model,
@@ -76,14 +83,19 @@ async def save_user_data(user_id: int) -> None:
                 voice_answer = excluded.voice_answer,
                 system_message = excluded.system_message,
                 pic_grade = excluded.pic_grade,
-                pic_size = excluded.pic_size
+                pic_size = excluded.pic_size,
+                username = excluded.username
             """,
             user_data.to_db_row(),
         )
         await db.commit()
 
-async def get_all_users() -> List[str]:
+async def get_all_users() -> List[Dict[str, str]]:
     async with aiosqlite.connect(DB_FILE) as db:
         db.row_factory = aiosqlite.Row
-        async with db.execute("SELECT user_id FROM UsersData") as cursor:
-            return [str(row["user_id"]) for row in await cursor.fetchall()]
+        async with db.execute("SELECT user_id, username FROM UsersData") as cursor:
+            users = []
+            for row in await cursor.fetchall():
+                username = row["username"] if "username" in row.keys() and row["username"] else "Unknown"
+                users.append({"user_id": str(row["user_id"]), "username": username})
+            return users

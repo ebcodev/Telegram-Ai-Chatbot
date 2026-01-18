@@ -22,6 +22,12 @@ async def chatgpt_text_handler(message: Message):
         return
 
     user_data = await get_or_create_user_data(message.from_user.id)
+    # Update username if changed
+    current_username = message.from_user.username or message.from_user.first_name
+    if user_data.username != current_username:
+        user_data.username = current_username
+        await save_user_data(message.from_user.id)
+        
     user_prompt = ""
 
     # Temporary message

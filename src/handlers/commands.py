@@ -63,7 +63,7 @@ async def enable_all_access(message: Message):
     user_id = message.from_user.id
     
     # Ensure who can use this command
-    if user_id != config.telegram.owner_id and user_id != config.telegram.admin_id:
+    if user_id != config.telegram.owner_id:
         await message.answer("You do not have permission to use this command.")
         return
     
@@ -80,7 +80,7 @@ async def disable_all_access(message: Message):
     user_id = message.from_user.id
     
     # Ensure who can use this command
-    if user_id != config.telegram.owner_id and user_id != config.telegram.admin_id:
+    if user_id != config.telegram.owner_id:
         await message.answer("You do not have permission to use this command.")
         return
     
