@@ -30,7 +30,8 @@ class UserData:
             encrypted_messages = f.encrypt(messages_json.encode()).decode()
             stored_messages = f"ENC:{encrypted_messages}"
         else:
-            stored_messages = messages_json
+            # Enforce encryption: do not save in plain text.
+            stored_messages = "ENC:ERROR_NO_KEY"
 
         return (
             str(self.user_id),
