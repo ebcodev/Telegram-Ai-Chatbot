@@ -22,9 +22,9 @@ async def command_start_handler(message: Message, state: FSMContext):
     # Retrieving or creating user data objects
     user_data = await get_or_create_user_data(message.from_user.id)
 
-    user_data.model = "gpt-4o-mini"
-    user_data.model_message_info = "4o mini"
-    user_data.model_message_chat = "4o mini:\n\n"
+    user_data.model = "gpt-5-nano"
+    user_data.model_message_info = "5 nano"
+    user_data.model_message_chat = "5 nano:\n\n"
     user_data.messages = []
     user_data.count_messages = 0
     user_data.max_out = 128000

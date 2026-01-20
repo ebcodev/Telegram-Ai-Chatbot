@@ -11,11 +11,14 @@ keyboard = InlineKeyboardMarkup(inline_keyboard=[
 
 # Model Choice
 keyboard_model = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text="GPT-4o Mini", callback_data="gpt_4o_mini"),
-     InlineKeyboardButton(text="GPT-4o", callback_data="gpt_4_o")],
-    [InlineKeyboardButton(text="o1 Mini", callback_data="gpt_o1_mini"),
-     InlineKeyboardButton(text="o1 Preview", callback_data="gpt_o1_preview")],
-    [InlineKeyboardButton(text="DALL-E 3", callback_data="dall_e_3")],
+    [InlineKeyboardButton(text="GPT-5 Nano", callback_data="gpt_5_nano"),
+     InlineKeyboardButton(text="GPT-4o Mini", callback_data="gpt_4o_mini")],
+    [InlineKeyboardButton(text="GPT-5 Mini", callback_data="gpt_5_mini"),
+     InlineKeyboardButton(text="GPT-4o", callback_data="gpt_4o")],
+    [InlineKeyboardButton(text="GPT-5", callback_data="gpt_5")],
+    [InlineKeyboardButton(text="Image 1 Mini", callback_data="gpt_image_1_mini"),
+     InlineKeyboardButton(text="Image 1", callback_data="gpt_image_1"),
+     InlineKeyboardButton(text="Image 1.5", callback_data="gpt_image_1_5")],
     [InlineKeyboardButton(text="Back", callback_data="back_menu")]
 ])
 

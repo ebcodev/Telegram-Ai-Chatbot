@@ -7,9 +7,9 @@ class UserData:
     user_id: int
     messages: List[Dict] = field(default_factory=list)
     count_messages: int = 0
-    model: str = "gpt-4o-mini"
-    model_message_info: str = "4o mini"
-    model_message_chat: str = "4o mini:\n\n"
+    model: str = "gpt-5-nano"
+    model_message_info: str = "5 nano"
+    model_message_chat: str = "5 nano:\n\n"
     max_out: int = 128000
     voice_answer: bool = False
     system_message: str = ""

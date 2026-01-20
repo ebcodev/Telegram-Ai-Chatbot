@@ -19,7 +19,7 @@ class OpenAIService:
         
         # Prepare messages
         final_messages = []
-        if system_message and model in ["gpt-4o-mini", "gpt-4o"]:
+        if system_message and model in ["gpt-5-nano", "gpt-4o-mini", "gpt-5-mini", "gpt-4o", "gpt-5"]:
              final_messages.append({"role": "system", "content": system_message})
         
         final_messages.extend(messages)
@@ -38,6 +38,7 @@ class OpenAIService:
     @staticmethod
     async def generate_image(
         prompt: str,
+        model: str = "gpt-image-1-mini",
         size: str = "1024x1024",
         quality: str = "standard",
         n: int = 1
@@ -45,7 +46,7 @@ class OpenAIService:
         try:
             response = await asyncio.to_thread(
                 lambda: client.images.generate(
-                    model="dall-e-3",
+                    model=model,
                     prompt=prompt,
                     n=n,
                     size=size,
@@ -103,7 +104,7 @@ class OpenAIService:
         try:
             response_voice = await asyncio.to_thread(
                 lambda: client.audio.speech.create(
-                    model="tts-1",
+                    model="gpt-4o-mini-tts",
                     voice="nova",
                     input=text,
                 )

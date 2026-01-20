@@ -142,37 +142,39 @@ async def set_model(callback_query, model_id, model_info, model_chat_prefix):
     await callback_query.answer()
 
 
+@router.callback_query(F.data == "gpt_5_nano")
+async def process_callback_gpt_5_nano(callback_query: CallbackQuery):
+    await set_model(callback_query, "gpt-5-nano", "5 nano", "5 nano:\n\n")
+
 @router.callback_query(F.data == "gpt_4o_mini")
 async def process_callback_gpt_4o_mini(callback_query: CallbackQuery):
     await set_model(callback_query, "gpt-4o-mini", "4o mini", "4o mini:\n\n")
 
-@router.callback_query(F.data == "gpt_4_o")
+@router.callback_query(F.data == "gpt_5_mini")
+async def process_callback_gpt_5_mini(callback_query: CallbackQuery):
+    await set_model(callback_query, "gpt-5-mini", "5 mini", "5 mini:\n\n")
+
+@router.callback_query(F.data == "gpt_4o")
 async def process_callback_gpt_4o(callback_query: CallbackQuery):
     await set_model(callback_query, "gpt-4o", "4o", "4o:\n\n")
 
-@router.callback_query(F.data == "gpt_o1_mini")
-async def process_callback_o1_mini(callback_query: CallbackQuery):
-    await set_model(callback_query, "o1-mini", "o1 mini", "o1 mini:\n\n")
+@router.callback_query(F.data == "gpt_5")
+async def process_callback_gpt_5(callback_query: CallbackQuery):
+    await set_model(callback_query, "gpt-5", "GPT-5", "GPT-5:\n\n")
 
-@router.callback_query(F.data == "gpt_o1_preview")
-async def process_callback_o1_preview(callback_query: CallbackQuery):
-    await set_model(callback_query, "o1-preview", "o1", "o1:\n\n")
-
-@router.callback_query(F.data == "dall_e_3")
-async def process_callback_dall_e_3(callback_query: CallbackQuery):
-    # DALL-E 3 handling logic is slightly different as it sets model for later use but not chat prefix in same way
+async def set_image_model(callback_query, model_id, model_name):
     if not await checkAccess(callback_query.message):
         return
 
     user_data = await get_or_create_user_data(callback_query.from_user.id)
 
-    if user_data.model == "dall-e-3":
+    if user_data.model == model_id:
         await callback_query.answer()
         return
 
-    user_data.model = "dall-e-3"
-    user_data.model_message_info = "DALL·E 3"
-    user_data.model_message_chat = "DALL·E 3:\n\n"
+    user_data.model = model_id
+    user_data.model_message_info = model_name
+    user_data.model_message_chat = f"{model_name}:\n\n"
 
     await save_user_data(callback_query.from_user.id)
 
@@ -181,6 +183,18 @@ async def process_callback_dall_e_3(callback_query: CallbackQuery):
         reply_markup=keyboard_model,
     )
     await callback_query.answer()
+
+@router.callback_query(F.data == "gpt_image_1_mini")
+async def process_callback_gpt_image_1_mini(callback_query: CallbackQuery):
+    await set_image_model(callback_query, "gpt-image-1-mini", "Image 1 Mini")
+
+@router.callback_query(F.data == "gpt_image_1")
+async def process_callback_gpt_image_1(callback_query: CallbackQuery):
+    await set_image_model(callback_query, "gpt-image-1", "Image 1")
+
+@router.callback_query(F.data == "gpt_image_1_5")
+async def process_callback_gpt_image_1_5(callback_query: CallbackQuery):
+    await set_image_model(callback_query, "gpt-image-1.5", "Image 1.5")
 
 
 # --- Pic Settings Handlers ---

@@ -47,13 +47,13 @@ async def chatgpt_text_handler(message: Message):
             await message.reply(simple_response)
             return
 
-        # DALL-E 3 Handling
-        if user_data.model == "dall-e-3":
+        # Image Generation Handling
+        if user_data.model in ["gpt-image-1-mini", "gpt-image-1", "gpt-image-1.5"]:
             await handle_dalle(message, user_data, user_prompt, last_message_id)
             return
 
         # Text Models Handling
-        if user_data.model in ["gpt-4o-mini", "gpt-4o", "o1-mini", "o1-preview"]:
+        if user_data.model in ["gpt-5-nano", "gpt-4o-mini", "gpt-5-mini", "gpt-4o", "gpt-5"]:
             await handle_text_model(message, user_data, user_prompt, last_message_id)
             return
             
@@ -66,6 +66,7 @@ async def handle_dalle(message, user_data, prompt, loading_msg_id):
     try:
         image_url = await OpenAIService.generate_image(
             prompt=prompt,
+            model=user_data.model,
             size=user_data.pic_size,
             quality=user_data.pic_grade
         )
