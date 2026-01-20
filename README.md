@@ -9,7 +9,7 @@ A powerful Telegram bot built with **aiogram** that integrates **OpenAI's API** 
 
 ![Project Overview Markmap](./readme_markmap.png)
 
-![Bot Demo](https://github.com/user-attachments/assets/b37fb02c-9a1d-4ae7-8142-ed2e361269f4)
+https://github.com/user-attachments/assets/b37fb02c-9a1d-4ae7-8142-ed2e361269f4
 
 ## 🚀 Quick Start
 
@@ -103,3 +103,4 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 ---
 
 Thanks for checking it out! ⭐ Star the repo if you find it useful.
+
